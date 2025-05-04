@@ -1,0 +1,28 @@
+.project-timeline-slider-editor {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+  .timeline-slide-editor {
+    flex: 1 1 calc(25% - 1rem);
+    box-sizing: border-box;
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    padding: 1rem;
+    border-radius: 4px;
+  }
+/* keep editor previews 16:9 and neatly cropped */
+.project-timeline-slider-editor .timeline-slide-editor img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+  }
+  
+  .timeline-slide-editor .components-base-control__label {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+  

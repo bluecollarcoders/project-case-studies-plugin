@@ -1,0 +1,136 @@
+/* ===================================
+   Card wrapper
+=================================== */
+.project-timeline-slider .timeline-slide {
+  background: #ffffff;
+  border-radius: 1.5rem;                /* big rounded corners */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06); /* soft drop shadow */
+  overflow: hidden;                     /* clip overflow */
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.project-timeline-slider .slick-track {
+  display: flex !important;
+  gap: 1.5rem;    /* ← 24px between slides */
+}
+
+
+
+/* ===================================
+   Image
+=================================== */
+.project-timeline-slider .timeline-slide__image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;    /* lock to 16:9 ratio */
+  object-fit: cover;       /* crop to fill the box */
+  border-top-left-radius: 1.5rem;
+  border-top-right-radius: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.project-timeline-slider .timeline-slide {
+  margin: 0 4rem; /* 1rem left/right around each card */
+}
+.project-timeline-slider .slick-list {
+  margin: 0 -1rem; /* offset that extra margin at the container edges */
+}
+
+
+
+/* If you want a fixed 16:9 aspect ratio container, wrap your <img> in a div
+   and use this instead:
+.timeline-slide__img-wrap {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+  overflow: hidden;
+}
+.timeline-slide__img-wrap img {
+  position: absolute; top:0; left:0;
+  width: 100%; height: 100%; object-fit: cover;
+}
+*/
+
+/* blocks/timeline-slider/style.css */
+
+/* ===================================
+   Force the carousel wrapper to 1256px
+=================================== */
+.project-milestones-slider-wrapper > 
+  .wp-block-project-case-studies-timeline-slider.project-timeline-slider,
+.wp-block-project-case-studies-timeline-slider.project-timeline-slider {
+  max-width: 1256px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  box-sizing: border-box;
+}
+
+
+
+/* ===================================
+   Title & Copy
+=================================== */
+.project-timeline-slider .timeline-slide__title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 1rem 0.5rem;  /* space inside card */
+  color: #222;
+  text-align: left;
+}
+
+.project-timeline-slider .timeline-slide__copy {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #555;
+  margin: 0 1rem 1rem;   /* bottom space inside card */
+  text-align: left;
+  flex-grow: 1;          /* push buttons (if any) to bottom */
+}
+
+/* ===================================
+   (Optional) Button area
+=================================== */
+/* If you later add a “Book me” or “Learn more” button, you can style it like this:
+.project-timeline-slider .timeline-slide .button {
+  margin: 0 1rem 1rem;
+  align-self: flex-start;
+}
+*/
+
+/* ===================================
+   Slick Arrows (tweak placement)
+=================================== */
+.project-timeline-slider .slick-prev,
+.project-timeline-slider .slick-next {
+  top: 108%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.6);
+  width: 2.5rem;
+  height: 2.5rem;
+  line-height: 2.5rem;
+  border-radius: 50%;
+}
+
+/* 2) If you’re using the built‑in pseudo‑elements… */
+.project-timeline-slider .slick-prev:before,
+.project-timeline-slider .slick-next:before {
+  /* make the pseudo-element positionable */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.project-timeline-slider .slick-prev { left: 0.5rem; }
+.project-timeline-slider .slick-next { right: 0.5rem; }
+.project-timeline-slider .slick-prev:before,
+.project-timeline-slider .slick-next:before {
+  font-size: 1rem;
+  color: #fff;
+  opacity: 1;
+}

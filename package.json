@@ -1,0 +1,27 @@
+{
+  "name": "projects-case-studies",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "wp-scripts build",
+    "start": "wp-scripts start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@wordpress/block-editor": "^14.4.0",
+    "@wordpress/components": "^28.9.0",
+    "@wordpress/core-data": "^7.9.0",
+    "@wordpress/data": "^10.9.0",
+    "@wordpress/edit-post": "^8.9.0",
+    "@wordpress/element": "^6.9.0",
+    "@wordpress/media-utils": "^5.9.0",
+    "@wordpress/plugins": "^7.9.0",
+    "@wordpress/scripts": "^30.15.0",
+    "jquery": "^3.7.1",
+    "slick-carousel": "^1.8.1",
+    "swiper": "^11.2.6"
+  }
+}

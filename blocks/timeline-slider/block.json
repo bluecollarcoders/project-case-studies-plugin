@@ -1,0 +1,43 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "project-case-studies/timeline-slider",
+  "title": "Project Timeline Slider",
+  "category": "widgets",
+  "icon": "slides",
+  "description": "A strict 4‑slide carousel",
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "color": {
+      "text": true
+    }
+  },
+  "attributes": {
+    "slides": {
+      "type": "array",
+      "default": [
+        { "imageUrl": "", "imageId": 0, "title": "", "copy": "" },
+        { "imageUrl": "", "imageId": 0, "title": "", "copy": "" },
+        { "imageUrl": "", "imageId": 0, "title": "", "copy": "" },
+        { "imageUrl": "", "imageId": 0, "title": "", "copy": "" }
+      ]
+    },
+    "autoplay": {
+      "type": "boolean",
+      "default": false
+    },
+    "textColor":{
+      "type":"string"
+    },
+    "titleTransform":{
+      "type":"string",
+      "default":"none"
+    }
+  },
+  "editorScript": "project-slider-block",
+  "editorStyle":  "project-slider-block",
+  "script":       "project-slider-frontend",
+  "style":        "project-slider-frontend",
+  "textdomain": "project-case-studies"
+}
