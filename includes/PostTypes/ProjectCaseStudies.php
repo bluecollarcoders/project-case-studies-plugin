@@ -82,7 +82,7 @@ final class ProjectCaseStudies {
             'taxonomies'         => [ 'business_type' ],
             'menu_icon'          => 'dashicons-portfolio',
             'show_in_rest'       => true,
-            'supports'           => ['title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments', 'custom-fields', 'sticky' ],
+            'supports'           => ['title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments', 'custom-fields', 'sticky', 'excerpt' ],
         ];
 
         register_post_type( 'project', $args );
