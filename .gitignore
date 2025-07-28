@@ -4,7 +4,6 @@ npm-debug.log
 .yarn/
 
 # Composer
-/vendor/
 composer.lock
 
 # Build files (optional if you rebuild on deploy)
