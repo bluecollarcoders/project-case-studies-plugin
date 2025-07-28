@@ -7,7 +7,6 @@ npm-debug.log
 composer.lock
 
 # Build files (optional if you rebuild on deploy)
-build/
 
 # OS
 .DS_Store
