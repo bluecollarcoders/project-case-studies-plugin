@@ -96,7 +96,7 @@ The plugin provides several pre-built patterns for consistent case study layouts
 ### 3. Timeline Slider Block
 
 #### Adding the Timeline Slider
-1. In the block editor, search for "Timeline Slider"
+1. In the block editor, the "Timeline Slider" block is already available.
 2. Add the block to your content
 3. Configure timeline items in the block sidebar:
    - **Title**: Milestone name
