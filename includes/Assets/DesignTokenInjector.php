@@ -24,35 +24,54 @@ final class DesignTokenInjector {
 	}
 
 	private function setup_hooks(): void {
-		add_filter( 'wp_theme_json_data_theme', [ $this, 'pcs_inject_json' ] );
+		/**
+		 * Front end: after WP knows what’s being rendered, conditionally attach the filter.
+		 */
+		add_action( 'wp', [ $this, 'maybe_hook_front_end_tokens' ] );
+
+		/**
+		 * Block editor: attach only when editing the Project CPT.
+		 */
+		add_action( 'current_screen', [ $this, 'maybe_hook_editor_tokens' ] );
 	}
 
 	/**
-	 * Merge the plugin's theme.json into the theme context.
+	 * Attach the theme.json filter only on Project front-end views.
+	 */
+	public function maybe_hook_front_end_tokens(): void {
+		if ( is_singular( 'project' ) || is_post_type_archive( 'project' ) ) {
+			add_filter( 'wp_theme_json_data_theme', [ $this, 'inject_palette' ], 10 );
+		}
+	}
+
+	/**
+	 * Attach the theme.json filter only when editing a Project in the editor.
 	 *
-	 * @param \WP_Theme_JSON $theme_json Theme JSON object.
+	 * @param \WP_Screen $screen
+	 */
+	public function maybe_hook_editor_tokens( $screen ): void {
+		if ( isset( $screen->post_type ) && 'project' === $screen->post_type ) {
+			add_filter( 'wp_theme_json_data_theme', [ $this, 'inject_palette' ], 10 );
+		}
+	}
+
+	/**
+	 * Additive token diff (palette only). Avoid layout/spacing overrides here.
+	 *
+	 * @param \WP_Theme_JSON $theme_json
 	 * @return \WP_Theme_JSON
 	 */
-	public function pcs_inject_json( $theme_json ) {
-		$current_data     = $theme_json->get_data();
-		$existing_palette = $current_data['settings']['color']['palette']['theme'] ?? [];
-	
-		$new_data = [
+	public function inject_palette( $theme_json ) {
+		$current  = $theme_json->get_data();
+		$existing = $current['settings']['color']['palette']['theme'] ?? [];
+
+		$diff = [
 			'version'  => 3,
 			'settings' => [
-				'layout'  => [
-					'contentSize' => '800px',
-					'wideSize'    => '1200px',
-				],
-				'spacing' => [
-					'spacingScale' => [ 'steps' => 10 ],
-					'units'        => [ 'rem', 'px' ],
-					'blockGap'     => true,
-				],
-				'color'   => [
+				'color' => [
 					'palette' => [
 						'theme' => array_merge(
-							$existing_palette,
+							$existing,
 							[
 								[
 									'slug'  => 'main-accent',
@@ -90,8 +109,8 @@ final class DesignTokenInjector {
 				],
 			],
 		];
-	
-		$theme_json->update_with( $new_data );
+
+		$theme_json->update_with( $diff );
 		return $theme_json;
 	}
 }
