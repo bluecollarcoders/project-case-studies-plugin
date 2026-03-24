@@ -6,14 +6,16 @@ import { __ } from '@wordpress/i18n';
 import { imageFields } from "./meta/imageFields";
 
 /**
- * Generates a form field based on meta type
+ * Generates a form field based on meta field configuration
+ * @param {Object} field - Meta field configuration object
+ * @param {Object} meta - Current meta values
+ * @param {Function} updateMeta - Meta update callback
+ * @returns {JSX.Element} Rendered form control
  */
 export const renderControl = ( field, meta, updateMeta ) => {
 	const value = meta?.[ field.key ] ?? '';
-  
-	if ( field.type === 'textarea' ) {
-		console.log('Render field:', field.key, '→', value);
 
+	if ( field.type === 'textarea' ) {
 	  return (
 		<TextareaControl
 		  key={ field.key }
@@ -23,8 +25,8 @@ export const renderControl = ( field, meta, updateMeta ) => {
 		/>
 	  );
 	}
-  
-	// everything else (url, text, etc)
+
+	// Handle text, url, and other single-line input types
 	return (
 	  <TextControl
 		key={ field.key }
@@ -35,44 +37,73 @@ export const renderControl = ( field, meta, updateMeta ) => {
 	);
   };
   
-  /**
-   * Generate media image upload + preview blocks
-   */
-  export const renderImageControls = ( meta, updateMeta ) => {
-  
+/**
+ * Handles media selection with proper error handling
+ * @param {string} key - Meta field key
+ * @param {Object} media - WordPress media object
+ * @param {Function} updateMeta - Meta update callback
+ */
+const handleMediaSelect = ( key, media, updateMeta ) => {
+	try {
+		// Prioritize source_url for full resolution, fallback to url
+		const imageUrl = media?.source_url || media?.url;
+
+		if ( ! imageUrl || typeof imageUrl !== 'string' ) {
+			console.warn( `Invalid media selection for field: ${key}` );
+			return;
+		}
+
+		updateMeta( key, imageUrl );
+	} catch ( error ) {
+		console.error( `Media upload failed for field ${key}:`, error );
+	}
+};
+
+/**
+ * Generate media image upload controls with preview functionality
+ * @param {Object} meta - Current meta values
+ * @param {Function} updateMeta - Meta update callback
+ * @returns {Array<JSX.Element>} Array of image control panels
+ */
+export const renderImageControls = ( meta, updateMeta ) => {
 	return imageFields.map( ( image ) => {
-	const imageUrl = meta?.[ image.key ] || image.fallback;
-  
-	  return (
-		<PanelBody
-		  key={ image.key }
-		  title={ __( image.label, 'projects-case-studies' ) }
-		  initialOpen={ false }
-		>
-		  <MediaUploadCheck>
-			<MediaUpload
-			  onSelect={ ( media ) => updateMeta( image.key, media?.source_url || media?.url ) }
-			  allowedTypes={ [ 'image' ] }
-			  value={ imageUrl }
-			  render={ ( { open } ) => (
-				<Button onClick={ open } variant="primary">
-				  { imageUrl
-					? __( 'Replace Image', 'projects-case-studies' )
-					: __( 'Choose Image',  'projects-case-studies' ) }
-				</Button>
-			  ) }
-			/>
-		  </MediaUploadCheck>
-		  { imageUrl && (
-			<div style={ { marginTop: '1em' } }>
-			  <img
-				src={ imageUrl }
-				alt={ __( `${ image.label } Preview`, 'projects-case-studies' ) }
-				style={ { width: '100%', borderRadius: '6px', border: '1px solid #ccc' } }
-			  />
-			</div>
-		  ) }
-		</PanelBody>
-	  );
+		const imageUrl = meta?.[ image.key ] || image.fallback;
+		const hasImage = imageUrl && imageUrl !== image.fallback;
+
+		return (
+			<PanelBody
+				key={ image.key }
+				title={ __( image.label, 'projects-case-studies' ) }
+				initialOpen={ false }
+			>
+				<MediaUploadCheck>
+					<MediaUpload
+						onSelect={ ( media ) => handleMediaSelect( image.key, media, updateMeta ) }
+						allowedTypes={ [ 'image' ] }
+						value={ imageUrl }
+						render={ ( { open } ) => (
+							<Button
+								onClick={ open }
+								variant="primary"
+								className="image-upload-button"
+							>
+								{ hasImage
+									? __( 'Replace Image', 'projects-case-studies' )
+									: __( 'Choose Image', 'projects-case-studies' ) }
+							</Button>
+						) }
+					/>
+				</MediaUploadCheck>
+				{ hasImage && (
+					<div className="image-preview-container">
+						<img
+							src={ imageUrl }
+							alt={ __( `${image.label} Preview`, 'projects-case-studies' ) }
+							className="image-preview"
+						/>
+					</div>
+				) }
+			</PanelBody>
+		);
 	} );
 };

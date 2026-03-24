@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Project Case Studies
- * Plugin URI:  https://yourwebsite.com
+ * Plugin URI:  https://calebmatteis.online
  * Description: A custom post type plugin for case studies.
  * Version:     1.0
  * Author:      Caleb Matteis
